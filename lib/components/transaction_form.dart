@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class TransactionForm extends StatefulWidget {
-  TransactionForm({Key? key, required this.onSubmit}) : super(key: key);
+  const TransactionForm({Key? key, required this.onSubmit}) : super(key: key);
 
   final void Function(String, double) onSubmit;
 
