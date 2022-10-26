@@ -27,7 +27,7 @@ class ExpensesApp extends StatelessWidget {
         textTheme: tema.textTheme.copyWith(
           headline6: TextStyle(
             fontFamily: 'OpenSans',
-            fontSize: 18,
+            fontSize: 18, //fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -131,27 +131,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Despesas Pessoais'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _openTransactionFormModal(context);
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
+    final appBar = AppBar(
+      title: Text(
+        'Despesas Pessoais',
+        
       ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            _openTransactionFormModal(context);
+          },
+          icon: Icon(Icons.add),
+        ),
+      ],
+    );
+
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            Chart(recentTransaction: _recentTransactions),
-            TransactionList(
-              transactions: _transactions,
-              onRemove: _removeTransaction,
+            SizedBox(
+              height: availableHeight * 0.30,
+              child: Chart(recentTransaction: _recentTransactions),
+            ),
+            SizedBox(
+              height: availableHeight * 0.70,
+              child: TransactionList(
+                transactions: _transactions,
+                onRemove: _removeTransaction,
+              ),
             ),
           ],
         ),
