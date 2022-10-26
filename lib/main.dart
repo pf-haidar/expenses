@@ -31,6 +31,10 @@ class ExpensesApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
+          button: TextStyle(
+            fontFamily: 'Quicksand',
+            fontWeight: FontWeight.bold,
+          ),
         ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
@@ -53,36 +57,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'Conta Antiga',
-      value: 400.00,
-      date: DateTime.now().subtract(Duration(days: 33)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Cartão de Crédito',
-      value: 100211.30,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'Lanche',
-      value: 11.30,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't0',
+    //   title: 'Conta Antiga',
+    //   value: 400.00,
+    //   date: DateTime.now().subtract(Duration(days: 33)),
+    // ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Novo Tênis de Corrida',
+    //   value: 310.76,
+    //   date: DateTime.now().subtract(Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Conta de Luz',
+    //   value: 211.30,
+    //   date: DateTime.now().subtract(Duration(days: 4)),
+    // ),
+    // Transaction(
+    //   id: 't3',
+    //   title: 'Cartão de Crédito',
+    //   value: 100211.30,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't4',
+    //   title: 'Lanche',
+    //   value: 11.30,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -95,12 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -108,6 +112,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     Navigator.of(context).pop();
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -139,7 +149,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             Chart(recentTransaction: _recentTransactions),
-            TransactionList(transactions: _transactions),
+            TransactionList(
+              transactions: _transactions,
+              onRemove: _removeTransaction,
+            ),
           ],
         ),
       ),
